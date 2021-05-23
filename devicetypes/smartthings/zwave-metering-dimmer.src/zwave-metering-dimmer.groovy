@@ -35,12 +35,10 @@ metadata {
 		fingerprint mfr:"0086", prod:"0003", model:"001B", deviceJoinName: "Aeotec Dimmer Switch" //Aeotec Micro Smart Dimmer 2E
 		fingerprint mfr:"0086", prod:"0103", model:"0063", deviceJoinName: "Aeotec Dimmer Switch"  //US //Aeotec Smart Dimmer 6
 		fingerprint mfr:"0086", prod:"0003", model:"0063", deviceJoinName: "Aeotec Dimmer Switch" //EU //Aeotec Smart Dimmer 6
-		fingerprint mfr:"0086", prod:"0103", model:"006F", deviceJoinName: "Aeotec Dimmer Switch" //Aeotec Nano Dimmer
-		fingerprint mfr:"0086", prod:"0003", model:"006F", deviceJoinName: "Aeotec Dimmer Switch" //Aeotec Nano Dimmer
-		fingerprint mfr:"0086", prod:"0203", model:"006F", deviceJoinName: "Aeotec Dimmer Switch" //AU //Aeotec Nano Dimmer
+		fingerprint mfr:"0086", prod:"0103", model:"006F", deviceJoinName: "Aeotec Dimmer Switch", mnmn: "SmartThings", vid: "SmartThings-smartthings-Aeotec_Nano_Dimmer" //Aeotec Nano Dimmer
+		fingerprint mfr:"0086", prod:"0003", model:"006F", deviceJoinName: "Aeotec Dimmer Switch", mnmn: "SmartThings", vid: "SmartThings-smartthings-Aeotec_Nano_Dimmer" //Aeotec Nano Dimmer
+		fingerprint mfr:"0086", prod:"0203", model:"006F", deviceJoinName: "Aeotec Dimmer Switch", mnmn: "SmartThings", vid: "SmartThings-smartthings-Aeotec_Nano_Dimmer" //Aeotec Nano Dimmer, AU
 		fingerprint mfr:"014F", prod:"5044", model:"3533", deviceJoinName: "GoControl Dimmer Switch" //GoControl Plug-in Dimmer
-		fingerprint mfr:"0159", prod:"0001", model:"0055", deviceJoinName: "Qubino Dimmer Switch" //Qubino Mini Dimmer ZMNHHD1
-		fingerprint mfr:"031E", prod:"0001", model:"0001", deviceJoinName: "Inovelli Dimmer Switch" //Inovelli Dimmer LZW31-SN
 	}
 
 	simulator {
@@ -107,8 +105,8 @@ metadata {
 						description: "This may need to be adjusted for bulbs that are not dimming properly.",
 						name: "minDimmingLevel",
 						type: "number",
-						range: "0..99",
-						defaultValue: 0
+						range: "1..99",
+						defaultValue: 1
 				)
 			}
 	}
@@ -304,10 +302,10 @@ def normalizeLevel(level) {
 
 def getAeotecNanoDimmerConfigurationCommands() {
 	def result = []
-	Integer minDimmingLevel = (settings.minDimmingLevel as Integer) ?: 0 // default value (parameter 131) for Aeotec Nano Dimmer
+	Integer minDimmingLevel = (settings.minDimmingLevel as Integer) ?: 1 // default value (parameter 131) for Aeotec Nano Dimmer
 
 	if (!state.minDimmingLevel) {
-		state.minDimmingLevel = 0 // default value (parameter 131) for Aeotec Nano Dimmer
+		state.minDimmingLevel = 1 // default value (parameter 131) for Aeotec Nano Dimmer
 	}
 
 	if (!state.configured || (minDimmingLevel != state.minDimmingLevel)) {
